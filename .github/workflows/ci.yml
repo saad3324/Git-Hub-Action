@@ -21,15 +21,17 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Clear Gradle Cache
+        run: rm -rf ~/.gradle/caches/
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Setup Gradle with caching
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace --info
 
   dependency-submission:
     runs-on: ubuntu-latest
@@ -53,7 +55,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace --info
 
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v4
